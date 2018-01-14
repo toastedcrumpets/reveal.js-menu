@@ -494,9 +494,9 @@ var RevealMenu = window.RevealMenu || (function(){
 						});
 
 						if (markers) {
-							item.appendChild(create('i', {class: 'fas fa-check-circle fa-fw past'}));
-							item.appendChild(create('i', {class: 'fas fa-arrow-alt-circle-right fa-fw active'}));
-							item.appendChild(create('i', {class: 'far fa-circle fa-fw future'}));
+							item.appendChild(create('i', {class: 'fa fa-check-circle fa-fw past'}));
+							item.appendChild(create('i', {class: 'fa fa-arrow-circle-right fa-fw active'}));
+							item.appendChild(create('i', {class: 'fa fa-circle-o fa-fw future'}));
 						}
 
 						if (numbers) {
@@ -566,7 +566,7 @@ var RevealMenu = window.RevealMenu || (function(){
 								}
 							});
 						    if (slideCount > 0) {
-							addToolbarButton('Slides', 'Slides', 'fa-list', 'fas', openPanel, false);
+							addToolbarButton('Slides', 'Slides', 'fa-list', 'fa', openPanel, false);
 							for (var index = 0, len = items.length; index < len; ++index)
 							    panel.appendChild(items[index]);
 							panels.appendChild(panel);
@@ -593,15 +593,15 @@ var RevealMenu = window.RevealMenu || (function(){
 					}
 
 					if (themes) {
-						addToolbarButton('Themes', 'Themes', 'fa-desktop', 'fas', openPanel);
+						addToolbarButton('Themes', 'Themes', 'fa-desktop', 'fa', openPanel);
 					}
 					if (transitions) {
-						addToolbarButton('Transitions', 'Transitions', 'fa-arrows-alt-h', 'fas', openPanel);
+						addToolbarButton('Transitions', 'Transitions', 'fa-arrows-alt-h', 'fa', openPanel);
 					}
 					button = create('li', {id: 'close'});
 					button.appendChild(create('span', {'class': 'slide-menu-toolbar-label'}, 'Close'));
 					button.appendChild(create('br'));
-					button.appendChild(create('i', {'class': 'fas fa-times'}));
+					button.appendChild(create('i', {'class': 'fa fa-times'}));
 					button.onclick = function() { closeMenu(null, true) };
 					toolbar.appendChild(button);
 				    
@@ -710,7 +710,7 @@ var RevealMenu = window.RevealMenu || (function(){
 						// add menu button
 						var div = create('div', {class: 'slide-menu-button'});
 						var link = create('a', {href: '#'});
-						link.appendChild(create('i', {class: 'fas fa-bars'}));
+						link.appendChild(create('i', {class: 'fa fa-bars'}));
 						div.appendChild(link);
 						select('.reveal').appendChild(div);
 						div.onclick = openMenu;
