@@ -449,27 +449,6 @@ var RevealMenu = window.RevealMenu || (function(){
 						return button;
 					}
 
-					addToolbarButton('Slides', 'Slides', 'fa-list', 'fas', openPanel, true);
-
-					if (custom) {
-						custom.forEach(function(element, index, array) {
-							addToolbarButton(element.title, 'Custom' + index, element.icon, null, openPanel);
-						});
-					}
-
-					if (themes) {
-						addToolbarButton('Themes', 'Themes', 'fa-desktop', 'fas', openPanel);
-					}
-					if (transitions) {
-						addToolbarButton('Transitions', 'Transitions', 'fa-arrows-alt-h', 'fas', openPanel);
-					}
-					button = create('li', {id: 'close'});
-					button.appendChild(create('span', {'class': 'slide-menu-toolbar-label'}, 'Close'));
-					button.appendChild(create('br'));
-					button.appendChild(create('i', {'class': 'fas fa-times'}));
-					button.onclick = function() { closeMenu(null, true) };
-					toolbar.appendChild(button);
-
 					//
 					// Slide links
 					//
@@ -562,11 +541,10 @@ var RevealMenu = window.RevealMenu || (function(){
 						if ( !document.querySelector('section[data-markdown]:not([data-markdown-parsed])') ) {
 							var panel = create('div', {
 								'data-panel': 'Slides',
-								'class': 'slide-menu-panel active-menu-panel'
+								'class': 'slide-menu-panel'
 							});
 							panel.appendChild(create('ul', {class: "slide-menu-items"}));
-							panels.appendChild(panel);
-							var items = select('.slide-menu-panel[data-panel="Slides"] > .slide-menu-items');
+							var items = [];
 							var slideCount = 0;
 							selectAll('.slides > section').forEach(function(section, h) {
 								var subsections = selectAll('section', section);
@@ -576,31 +554,57 @@ var RevealMenu = window.RevealMenu || (function(){
 										var item = generateItem(type, subsection, slideCount, h, v);
 										if (item) {
 											slideCount++;
-											items.appendChild(item);
+											items.push(item);
 										}
 									});
 								} else {
 									var item = generateItem('slide-menu-item', section, slideCount, h);
 									if (item) {
 										slideCount++;
-										items.appendChild(item);
+										items.push(item);
 									}
 								}
 							});
+						    if (slideCount > 0) {
+							addToolbarButton('Slides', 'Slides', 'fa-list', 'fas', openPanel, false);
+							for (var index = 0, len = items.length; index < len; ++index)
+							    panel.appendChild(items[index]);
+							panels.appendChild(panel);
 							selectAll('.slide-menu-item, .slide-menu-item-vertical').forEach(function(i) {
 								i.onclick = clicked;
 							});
+						    
 							highlightCurrentSlide();
+						    }
 						}
 						else {
-						// wait for markdown to be loaded and parsed
-							setTimeout( createSlideMenu, 100 );
+						    // wait for markdown to be loaded and parsed
+						    setTimeout( createSlideMenu, 100 );
 						}
 					}
 
 					createSlideMenu();
 					Reveal.addEventListener('slidechanged', highlightCurrentSlide);
 
+					if (custom) {
+						custom.forEach(function(element, index, array) {
+							addToolbarButton(element.title, 'Custom' + index, element.icon, null, openPanel);
+						});
+					}
+
+					if (themes) {
+						addToolbarButton('Themes', 'Themes', 'fa-desktop', 'fas', openPanel);
+					}
+					if (transitions) {
+						addToolbarButton('Transitions', 'Transitions', 'fa-arrows-alt-h', 'fas', openPanel);
+					}
+					button = create('li', {id: 'close'});
+					button.appendChild(create('span', {'class': 'slide-menu-toolbar-label'}, 'Close'));
+					button.appendChild(create('br'));
+					button.appendChild(create('i', {'class': 'fas fa-times'}));
+					button.onclick = function() { closeMenu(null, true) };
+					toolbar.appendChild(button);
+				    
 					//
 					// Custom menu panels
 					//
@@ -723,6 +727,10 @@ var RevealMenu = window.RevealMenu || (function(){
 						link.onclick = openMenu;
 					}
 
+				    panels.children[1].classList.add('active-menu-panel')
+				    toolbar.children[0].classList.add('active-toolbar-button');
+
+				    
 					//
 					// Handle mouse overs
 					//
