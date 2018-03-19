@@ -290,7 +290,8 @@ var RevealMenu = window.RevealMenu || (function(){
 
 			function openMenu(event) {
 				if (event) event.preventDefault();
-				if (!isOpen()) {
+			    if (!isOpen()) {
+				Reveal.configure({ touch: false });
 					select('body').classList.add('slide-menu-active');
 				    select('.reveal').classList.add('has-' + options.effect + '-' + side);
 				    select('.slide-menu').classList.add('active');
@@ -316,6 +317,7 @@ var RevealMenu = window.RevealMenu || (function(){
 			function closeMenu(event, force) {
 				if (event) event.preventDefault();
 				if (!sticky || force) {
+				    Reveal.configure({ touch: true });
 					select('body').classList.remove('slide-menu-active');
 					select('.reveal').classList.remove('has-' + options.effect + '-' + side);
 					select('.slide-menu').classList.remove('active');
